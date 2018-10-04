@@ -35,6 +35,7 @@ public class PatientWSClient {
 		Response updateResponse = putTarget.request()
 				.put(Entity.entity(patient, MediaType.APPLICATION_XML));
 		System.out.println(updateResponse.getStatus());
+		updateResponse.close();
 		
 		
 		Patient newPatient = new Patient();
@@ -44,6 +45,7 @@ public class PatientWSClient {
 		Patient createdPatient = postTarget.request()
 				.post(Entity.entity(patient, MediaType.APPLICATION_XML),Patient.class);
 		System.out.println("Create Patient ID - " + createdPatient.getId());
+		client.close();
 	}
 
 }
