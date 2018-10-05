@@ -19,6 +19,7 @@ public class PatientWSClient {
 
 		Client client = ClientBuilder.newClient();
 		
+		//get
 		WebTarget target = client.target(PATIENT_SERVICE_URL).path(PATIENTS).path("/{id}")
 				.resolveTemplate("id", 123);
 		
@@ -29,6 +30,8 @@ public class PatientWSClient {
 		System.out.println(patient.getName());
 		System.out.println(patient.getId());
 		
+		
+		//put
 		patient.setName("Kyle");
 		
 		WebTarget putTarget = client.target(PATIENT_SERVICE_URL).path(PATIENTS);
@@ -41,11 +44,24 @@ public class PatientWSClient {
 		Patient newPatient = new Patient();
 		newPatient.setName("Bob");
 		
+		//post
 		WebTarget postTarget = client.target(PATIENT_SERVICE_URL).path(PATIENTS);
 		Patient createdPatient = postTarget.request()
 				.post(Entity.entity(patient, MediaType.APPLICATION_XML),Patient.class);
 		System.out.println("Create Patient ID - " + createdPatient.getId());
 		client.close();
+		
+		//delete
+		WebTarget deleteTarget = client.target(PATIENT_SERVICE_URL).path(PATIENTS).path("/{id}").resolveTemplate("id", 123);
+		
+		//Builder deleteRequest = deleteTarget.request();
+		
+		Patient deletePatient = deleteTarget.request().delete(Patient.class);
+		
+		System.out.println("Deleting this patient = " + deletePatient.getName());
+		
+		
+		
 	}
 
 }
